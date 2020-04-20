@@ -5,22 +5,41 @@ import styles from './Charts.module.css';
 
 const Charts = () => {
 
-    const [dailyData, setDailyData] = useState({});
+    const [dailyData, setDailyData] = useState([]);
     useEffect(() => {
         const fetchAPI = async () => {
             const dailyData = await fetchDailyData();
             setDailyData(dailyData);
         }
+        //console.log(dailyData);
         fetchAPI();
-    });
+    },[]);
 
     const lineChart = (
-        <Line 
-    )
+        dailyData.length != 0?
+        (< Line data = {{
+            labels: dailyData.map(({ date }) => date),
+                datasets: [{
+                    data: dailyData.map(({ confirmed }) => confirmed),
+                    label: 'Infected',
+                    borderColor: "#3333ff",
+                    fill:true
+                }, {
+                    data: dailyData.map(({ deaths }) => deaths),
+                    label: 'Infected',
+                    borderColor: "red",
+                    backgroundColor:"rgba(255,0,0,0.5)",
+                    fill:true
+                }]      //Just 2 because the API does not provide dailydata for recovered.
+            }} />)
+            : null
+    );
 
 
     return (
-        <h1>Charts</h1>
+        <div className='container'>
+            {lineChart}
+        </div>
     )
 }
 
