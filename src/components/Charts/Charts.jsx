@@ -17,7 +17,7 @@ const Charts = () => {
 
     const lineChart = (
         dailyData.length != 0?
-        (< Line data = {{
+        (< Line  data = {{
             labels: dailyData.map(({ date }) => date),
                 datasets: [{
                     data: dailyData.map(({ confirmed }) => confirmed),
@@ -26,7 +26,7 @@ const Charts = () => {
                     fill:true
                 }, {
                     data: dailyData.map(({ deaths }) => deaths),
-                    label: 'Infected',
+                    label: 'Deaths',
                     borderColor: "red",
                     backgroundColor:"rgba(255,0,0,0.5)",
                     fill:true
@@ -37,7 +37,7 @@ const Charts = () => {
 
 
     return (
-        <div className='container'>
+        <div className={styles.container}>
             {lineChart}
         </div>
     )
