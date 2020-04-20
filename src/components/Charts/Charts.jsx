@@ -1,6 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import { fetchDailyData } from '../../API';
+import { Line, Bar } from 'react-chartjs-2';
+import styles from './Charts.module.css';
 
 const Charts = () => {
+
+    const [dailyData, setDailyData] = useState({});
+    useEffect(() => {
+        const fetchAPI = async () => {
+            const dailyData = await fetchDailyData();
+            setDailyData(dailyData);
+        }
+        fetchAPI();
+    });
+
+    const lineChart = (
+        <Line 
+    )
+
+
     return (
         <h1>Charts</h1>
     )
