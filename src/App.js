@@ -1,44 +1,41 @@
-import React from 'react'
-import styles from './App.module.css'
-import {fetchData} from './API'
-//import Cards from './components/Cards/Cards'
-//import Charts from './components/Charts/Charts'
-//import CountryPicker from './components/CountryPicker/CountryPicker'
+import React from 'react';
 
-import { Cards, Charts, CountryPicker } from './components';    //See index.js in 'components' for more.
+import { Cards, CountryPicker, Chart } from './components';
+import { fetchData } from './api';
+import styles from './App.module.css';
+
+import image from './images/image.png';
 
 class App extends React.Component {
+  state = {
+    data: {},
+    country: '',
+  }
 
-    state = {
-        data: {},
-        country:''
-    }
+  async componentDidMount() {
+    const data = await fetchData();
 
-    async componentDidMount() {
-        const fetchedData = await fetchData();
-        this.setState({ data: fetchedData });
-        console.log(fetchedData);
-    }
+    this.setState({ data });
+  }
 
-    handleCountryChange = async (country) => {
-        const fetchedData = await fetchData(country);
-        this.setState({ data: fetchedData, country: country });
-        //console.log(country);
-        console.log(fetchedData);
-        
-    }
-    render() {
-        const { data } = this.state;
-         return (
-        <div className={styles.container}>
-            <Cards data={data}/>
-            <CountryPicker handleCountryChange={this.handleCountryChange} />
-            <Charts />
-        </div>
-        
-    )
-    }
-   
+  handleCountryChange = async (country) => {
+    const data = await fetchData(country);
+
+    this.setState({ data, country: country });
+  }
+
+  render() {
+    const { data, country } = this.state;
+
+    return (
+      <div className={styles.container}>
+        <img className={styles.image} src={image} alt="COVID-19" />
+        <Cards data={data} />
+        <CountryPicker handleCountryChange={this.handleCountryChange} />
+        <Chart data={data} country={country} /> 
+      </div>
+    );
+  }
 }
 
 export default App;
